@@ -17,22 +17,19 @@ Copyright 2019 3rd Wave Labs LLC
 
 ThirdWave_MCP4728 dac;
 
-void setup(void) {
-	/// For ThridWave_MCP4728 A0 the address is 0x60 (default) or 0x61 for A1
-	dac.begin();
+void setup() {
+    dac.begin();
 }
 
-void loop(void) {
-    uint32_t counter;
-    // Run through the full 12-bit scale for a triangle wave
-	counter = 0;
-    while(counter < 4096) {
-		dac.setAll(counter);
-		counter++;
+void loop() {
+    for (int level = 0; level <= 4095; level++) {
+        for (int channel = 0; channel < 8; channel ++) {
+            dac.setVoltage(channel, level);
+        }
     }
-    while(counter > 0) {
-		dac.setAll(counter);
-		counter--;
+    for (int level = 4095; level >= 0; level--) {
+        for (int channel = 0; channel < 8; channel ++) {
+            dac.setVoltage(channel, level);
+        }
     }
-	 
 }
